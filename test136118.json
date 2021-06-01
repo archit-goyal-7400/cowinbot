@@ -1,0 +1,267 @@
+{
+  "centers": [
+    {
+      "center_id": 693244,
+      "name": "LNJP COVAXIN 18 TO 44",
+      "address": "THANSESAR KURUKSHETRA",
+      "state_name": "Haryana",
+      "district_name": "Kurukshetra",
+      "block_name": "Thanesar",
+      "pincode": 136118,
+      "lat": 29,
+      "long": 76,
+      "from": "09:00:00",
+      "to": "14:00:00",
+      "fee_type": "Free",
+      "sessions": [
+        {
+          "session_id": "5a6d524a-3562-46d8-a40f-3100d0e8f7fd",
+          "date": "31-05-2021",
+          "available_capacity": 50,
+          "min_age_limit": 18,
+          "vaccine": "COVAXIN",
+          "slots": [
+            "09:00AM-10:00AM",
+            "10:00AM-11:00AM",
+            "11:00AM-12:00PM",
+            "12:00PM-02:00PM"
+          ],
+          "available_capacity_dose1": 0,
+          "available_capacity_dose2": 0
+        }
+      ]
+    },
+    {
+      "center_id": 698596,
+      "name": "UHVBN Sec 8 MOHAN NAGAR",
+      "address": "THANESAR",
+      "state_name": "Haryana",
+      "district_name": "Kurukshetra",
+      "block_name": "Thanesar",
+      "pincode": 136118,
+      "lat": 30,
+      "long": 76,
+      "from": "10:00:00",
+      "to": "14:00:00",
+      "fee_type": "Free",
+      "sessions": [
+        {
+          "session_id": "2af8c2b4-da48-4b5d-acca-0440f85b5ea1",
+          "date": "31-05-2021",
+          "available_capacity": 70,
+          "min_age_limit": 18,
+          "vaccine": "COVAXIN",
+          "slots": [
+            "10:00AM-11:00AM",
+            "11:00AM-12:00PM",
+            "12:00PM-01:00PM",
+            "01:00PM-02:00PM"
+          ],
+          "available_capacity_dose1": 0,
+          "available_capacity_dose2": 0
+        },
+        {
+          "session_id": "976ff3c5-13ef-4836-adc0-d1c4e8c340c2",
+          "date": "31-05-2021",
+          "available_capacity": 0,
+          "min_age_limit": 45,
+          "vaccine": "COVAXIN",
+          "slots": [
+            "10:00AM-11:00AM",
+            "11:00AM-12:00PM",
+            "12:00PM-01:00PM",
+            "01:00PM-02:00PM"
+          ],
+          "available_capacity_dose1": 0,
+          "available_capacity_dose2": 0
+        }
+      ]
+    },
+    {
+      "center_id": 606208,
+      "name": "Kurukhetra Polyclinic 45 ABOVE",
+      "address": "Sec-4 Kurukshetra",
+      "state_name": "Haryana",
+      "district_name": "Kurukshetra",
+      "block_name": "Thanesar",
+      "pincode": 136118,
+      "lat": 30,
+      "long": 76,
+      "from": "09:00:00",
+      "to": "14:00:00",
+      "fee_type": "Free",
+      "sessions": [
+        {
+          "session_id": "314f3b03-ecff-4d11-a1dc-0317b3f78543",
+          "date": "31-05-2021",
+          "available_capacity": 0,
+          "min_age_limit": 45,
+          "vaccine": "COVISHIELD",
+          "slots": [
+            "09:00AM-10:00AM",
+            "10:00AM-11:00AM",
+            "11:00AM-12:00PM",
+            "12:00PM-02:00PM"
+          ],
+          "available_capacity_dose1": 0,
+          "available_capacity_dose2": 0
+        }
+      ]
+    },
+    {
+      "center_id": 617244,
+      "name": "UPHC Krishna Nagar Gamri",
+      "address": "UPHC Krishna Nagar Gamri",
+      "state_name": "Haryana",
+      "district_name": "Kurukshetra",
+      "block_name": "Thanesar",
+      "pincode": 136118,
+      "lat": 29,
+      "long": 76,
+      "from": "09:00:00",
+      "to": "14:00:00",
+      "fee_type": "Free",
+      "sessions": [
+        {
+          "session_id": "cbcf4717-21ea-4332-aaf4-9a0a6383533b",
+          "date": "31-05-2021",
+          "available_capacity": 0,
+          "min_age_limit": 45,
+          "vaccine": "COVISHIELD",
+          "slots": [
+            "09:00AM-10:00AM",
+            "10:00AM-11:00AM",
+            "11:00AM-12:00PM",
+            "12:00PM-02:00PM"
+          ],
+          "available_capacity_dose1": 0,
+          "available_capacity_dose2": 0
+        }
+      ]
+    },
+    {
+      "center_id": 617017,
+      "name": "LNJP 2ND DOSE COVAXIN",
+      "address": "LNJP KURUKSHETRA",
+      "state_name": "Haryana",
+      "district_name": "Kurukshetra",
+      "block_name": "Thanesar",
+      "pincode": 136118,
+      "lat": 29,
+      "long": 76,
+      "from": "09:00:00",
+      "to": "14:00:00",
+      "fee_type": "Free",
+      "sessions": [
+        {
+          "session_id": "7463e9c7-ef49-40b6-9079-49ba147ddb3a",
+          "date": "01-06-2021",
+          "available_capacity": 0,
+          "min_age_limit": 45,
+          "vaccine": "COVAXIN",
+          "slots": [
+            "09:00AM-10:00AM",
+            "10:00AM-11:00AM",
+            "11:00AM-12:00PM",
+            "12:00PM-02:00PM"
+          ],
+          "available_capacity_dose1": 0,
+          "available_capacity_dose2": 0
+        }
+      ]
+    },
+    {
+      "center_id": 618019,
+      "name": "Kirmach PHC",
+      "address": "Village Kirmach",
+      "state_name": "Haryana",
+      "district_name": "Kurukshetra",
+      "block_name": "Barna",
+      "pincode": 136118,
+      "lat": 29,
+      "long": 76,
+      "from": "09:00:00",
+      "to": "14:00:00",
+      "fee_type": "Free",
+      "sessions": [
+        {
+          "session_id": "5d57b973-36f8-4900-8597-80e03caf1458",
+          "date": "01-06-2021",
+          "available_capacity": 0,
+          "min_age_limit": 45,
+          "vaccine": "COVISHIELD",
+          "slots": [
+            "09:00AM-10:00AM",
+            "10:00AM-11:00AM",
+            "11:00AM-12:00PM",
+            "12:00PM-02:00PM"
+          ],
+          "available_capacity_dose1": 0,
+          "available_capacity_dose2": 0
+        }
+      ]
+    },
+    {
+      "center_id": 627348,
+      "name": "DHURALA P CENTRE HEALTH",
+      "address": "VILLAGE DHURALA",
+      "state_name": "Haryana",
+      "district_name": "Kurukshetra",
+      "block_name": "Barna",
+      "pincode": 136118,
+      "lat": 30,
+      "long": 76,
+      "from": "09:00:00",
+      "to": "14:00:00",
+      "fee_type": "Free",
+      "sessions": [
+        {
+          "session_id": "bc54bfcc-ebb7-4e3e-91dd-769868e6c97a",
+          "date": "01-06-2021",
+          "available_capacity": 0,
+          "min_age_limit": 45,
+          "vaccine": "COVISHIELD",
+          "slots": [
+            "09:00AM-10:00AM",
+            "10:00AM-11:00AM",
+            "11:00AM-12:00PM",
+            "12:00PM-02:00PM"
+          ],
+          "available_capacity_dose1": 0,
+          "available_capacity_dose2": 0
+        }
+      ]
+    },
+    {
+      "center_id": 587328,
+      "name": "LNJP CIVIL Hospital 45 Above",
+      "address": "Thanesar Kurukshetra",
+      "state_name": "Haryana",
+      "district_name": "Kurukshetra",
+      "block_name": "Thanesar",
+      "pincode": 136118,
+      "lat": 29,
+      "long": 76,
+      "from": "09:00:00",
+      "to": "14:00:00",
+      "fee_type": "Free",
+      "sessions": [
+        {
+          "session_id": "6bac527c-05f2-4fa5-aa3a-2d0212436973",
+          "date": "01-06-2021",
+          "available_capacity": 0,
+          "min_age_limit": 45,
+          "vaccine": "COVISHIELD",
+          "slots": [
+            "09:00AM-10:00AM",
+            "10:00AM-11:00AM",
+            "11:00AM-12:00PM",
+            "12:00PM-02:00PM"
+          ],
+          "available_capacity_dose1": 0,
+          "available_capacity_dose2": 0
+        }
+      ]
+    }
+  ]
+}

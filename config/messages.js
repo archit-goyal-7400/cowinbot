@@ -7,7 +7,7 @@ I can check the slots availability in your area.Just press Check Open Slots butt
 
 exports.agePref = "Select Your Age Preference";
 
-exports.checkSlotsMsg = (centers, pincode) => {
+const createMsg = (centers, pincode) => {
   let msg = "";
   let cnt = 0;
   msg += "Slots available for the pincode " + pincode + " are : \n";
@@ -26,6 +26,8 @@ exports.checkSlotsMsg = (centers, pincode) => {
             session.date +
             " :  " +
             session.available_capacity +
+            "  - " +
+            session.vaccine +
             "   (Age - " +
             session.min_age_limit +
             ")\n";
@@ -35,7 +37,19 @@ exports.checkSlotsMsg = (centers, pincode) => {
     }
   }
   if (cnt == 0) {
+    return -1;
+  }
+  return msg;
+};
+
+exports.checkSlotsMsg = (centers, pincode) => {
+  let msg = createMsg(centers, pincode);
+  if (msg === -1) {
     msg = "No slots available for pincode " + pincode;
   }
   return msg;
+};
+
+exports.getMessage = (centers, pincode) => {
+  return createMsg(centers, pincode);
 };

@@ -1,0 +1,35 @@
+{
+  "centers": [
+    {
+      "center_id": 606237,
+      "name": "Barna CHC",
+      "address": "Village Barna",
+      "state_name": "Haryana",
+      "district_name": "Kurukshetra",
+      "block_name": "Barna",
+      "pincode": 136119,
+      "lat": 0,
+      "long": 0,
+      "from": "09:00:00",
+      "to": "14:00:00",
+      "fee_type": "Free",
+      "sessions": [
+        {
+          "session_id": "81ed89ac-cfb3-4159-a02a-8f62fb15fc64",
+          "date": "01-06-2021",
+          "available_capacity": 0,
+          "min_age_limit": 45,
+          "vaccine": "COVISHIELD",
+          "slots": [
+            "09:00AM-10:00AM",
+            "10:00AM-11:00AM",
+            "11:00AM-12:00PM",
+            "12:00PM-02:00PM"
+          ],
+          "available_capacity_dose1": 0,
+          "available_capacity_dose2": 0
+        }
+      ]
+    }
+  ]
+}
