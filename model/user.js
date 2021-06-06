@@ -11,8 +11,8 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.String,
       },
       email: {
-        type: mongoose.Schema.Types.Boolean,
-        default: false,
+        type: mongoose.Schema.Types.String,
+        default: "",
       },
     },
   ],

@@ -2,10 +2,17 @@ exports.startMessage = `
 Hi there!
 Welcome to the Vaccine Notifier Bot
 
-I can check the slots availability in your area.Just press Check Open Slots button below.
+I can check the slots availability in your area.Just press Check Open Slots button below.\n
+Press Setup Alerts to get notified when slots are available\n
+Press India to know all the information of covid-19 in India\n
+Press State to know all the information of of Covid-19 by state
 `;
 
 exports.agePref = "Select Your Age Preference";
+
+exports.subscribeMsg = "Enter subscribe <your pincode>";
+exports.afterSubscribeMsg =
+  "You are now subscribed to recieve COVID-19 vaccine shot alerts for your pin...";
 
 const createMsg = (centers, pincode) => {
   let msg = "";

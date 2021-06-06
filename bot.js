@@ -1,18 +1,31 @@
 const Telegraf = require("telegraf");
 const mongoose = require("mongoose");
 const User = require("./model/user");
-const keys = require("./keys");
-const fs = require("fs");
+const keys = require("./config/keys");
+const { stateList } = require("./config/states");
 
 const {
   startMessage,
   checkSlotsMsg,
   getMessage,
+  subscribeMsg,
+  afterSubscribeMsg,
 } = require("./config/messages");
-const { startMarkup, checkSlotMarkup } = require("./config/keymapping");
+const {
+  startMarkup,
+  checkSlotMarkup,
+  subscribeMarkup,
+  subscribeMarkup1,
+  afterInfoMarkup,
+  botInfoMarkup,
+  indiaMarkup,
+  stateMarkup,
+  stateNameMarkup,
+} = require("./config/keymapping");
 const { default: axios } = require("axios");
 const Queue = require("./config/Queue");
 
+const bot = new Telegraf(keys.telegrafKey);
 let info = new Map();
 let pincodesQ = new Queue();
 // pincodesQ.enqueue("136118");
@@ -29,85 +42,68 @@ class pincodeInfo {
 }
 
 const sendNewMsg = async (centers, pincode) => {
-  const msg = [];
-  if (!info[pincode]) {
-    info[pincode] = new pincodeInfo(centers);
-    return;
-  }
-  for (const center of centers) {
-    const answer = {};
-    // answwer
-    answer.name = center.name;
-    answer.center_id = center.center_id;
-    answer.sessions = [];
-    const prevDetails = info[pincode].centers[center.center_id];
-    for (const session of center.sessions) {
-      const prevSession = prevDetails.sessions.find((detail) => {
-        return detail.session_id === session.session_id;
-      });
-      if (prevSession) {
-        if (
-          prevSession.available_capacity < session.available_capacity &&
-          prevSession.min_age_limit === session.min_age_limit &&
-          prevSession.vaccine === session.vaccine
-        ) {
-          answer.sessions.push({
-            session_id: session.session_id,
-            date: session.date,
-            available_capacity: session.available_capacity,
-            min_age_limit: session.min_age_limit,
-            vaccine: session.vaccine,
+  try {
+    const msg = [];
+    if (!info[pincode]) {
+      info[pincode] = new pincodeInfo(centers);
+      return;
+    }
+    for (const center of centers) {
+      const answer = {};
+      // answwer
+      answer.name = center.name;
+      answer.center_id = center.center_id;
+      answer.sessions = [];
+      const prevDetails = info[pincode].centers[center.center_id];
+      for (const session of center.sessions) {
+        let prevSession = undefined;
+        if (prevDetails) {
+          prevSession = prevDetails.sessions.find((detail) => {
+            return detail.session_id === session.session_id;
           });
         }
-      } else {
-        if (session.available_capacity > 0) {
-          answer.sessions.push({
-            session_id: session.session_id,
-            date: session.date,
-            available_capacity: session.available_capacity,
-            min_age_limit: session.min_age_limit,
-            vaccine: session.vaccine,
-          });
+        if (prevSession) {
+          if (
+            prevSession.available_capacity < session.available_capacity &&
+            prevSession.min_age_limit === session.min_age_limit &&
+            prevSession.vaccine === session.vaccine
+          ) {
+            answer.sessions.push({
+              session_id: session.session_id,
+              date: session.date,
+              available_capacity: session.available_capacity,
+              min_age_limit: session.min_age_limit,
+              vaccine: session.vaccine,
+            });
+          }
+        } else {
+          if (session.available_capacity > 0) {
+            answer.sessions.push({
+              session_id: session.session_id,
+              date: session.date,
+              available_capacity: session.available_capacity,
+              min_age_limit: session.min_age_limit,
+              vaccine: session.vaccine,
+            });
+          }
+        }
+      }
+      msg.push(answer);
+      info[pincode].centers[center.center_id] = center;
+    }
+    if (msg.length > 0) {
+      const generatedMsg = getMessage(msg, pincode);
+      if (generatedMsg !== -1) {
+        const users = await User.findOne({ pincode: pincode });
+        for (let user of users.telegramUser) {
+          console.log("sending for ", user, " and pincode " + pincode);
+          bot.telegram.sendMessage(user.id, generatedMsg);
         }
       }
     }
-    msg.push(answer);
-    info[pincode].centers[center.center_id] = center;
+  } catch (err) {
+    console.log(err);
   }
-  if (msg.length > 0) {
-    const generatedMsg = getMessage(msg, pincode);
-    if (generatedMsg !== -1) {
-      const users = await User.findOne({ pincode: pincode });
-      for (let user of users.telegramUser) {
-        console.log("sending for ", user);
-        bot.telegram.sendMessage(user.id, generatedMsg);
-      }
-    }
-  }
-};
-
-/*
-Structure of info
-info[pincode]={
-  state : "",
-  district : "",
-  centers : [
-    {center}
-  ]
-}
-
-*/
-
-const fn = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 1000);
-  });
-};
-const mockApi = async () => {
-  await fn();
-  // return fakeUser;
 };
 
 const updateSlots = async (pincode) => {
@@ -127,33 +123,35 @@ const updateSlots = async (pincode) => {
     pincode +
     "&date=" +
     fullDate;
-  const response = await axios.get(reqTo, {
-    headers: {
-      "Accept-Language": "hi_IN",
-      "User-Agent":
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36",
-    },
-  });
-  //testing
-  // let response = fs.readFileSync("../test" + pincode + ".json");
-  // response = JSON.parse(response);
-  // response.data = response;
-  const requiredData = response.data.centers.map((centerData) => {
-    return {
-      center_id: centerData.center_id,
-      name: centerData.name,
-      address: centerData.address,
-      sessions: centerData.sessions,
-    };
-  });
-  await sendNewMsg(requiredData, pincode);
+  try {
+    const response = await axios.get(reqTo, {
+      headers: {
+        "Accept-Language": "hi_IN",
+        "User-Agent":
+          "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36",
+      },
+    });
+    //testing
+    // let response = fs.readFileSync("../test" + pincode + ".json");
+    // response = JSON.parse(response);
+    // response.data = response;
+    const requiredData = response.data.centers.map((centerData) => {
+      return {
+        center_id: centerData.center_id,
+        name: centerData.name,
+        address: centerData.address,
+        sessions: centerData.sessions,
+      };
+    });
+    await sendNewMsg(requiredData, pincode);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const poll = () => {
   console.log("Start poll...");
-
   const executePoll = async (resolve, reject) => {
-    console.log("- poll");
     if (pincodesQ.isEmpty() === false) {
       const pincode = pincodesQ.dequeue();
       pincodesQ.enqueue(pincode);
@@ -168,7 +166,6 @@ poll();
 
 // poll(mockApi, 10000, 10);
 // fn();
-const bot = new Telegraf(keys.telegrafKey);
 bot.command("start", (ctx) => {
   bot.telegram.sendMessage(ctx.chat.id, startMessage, {
     reply_markup: {
@@ -178,7 +175,21 @@ bot.command("start", (ctx) => {
 });
 
 bot.action("checkSlots", (ctx) => {
-  bot.telegram.sendMessage(ctx.chat.id, "Enter your pincode");
+  ctx.deleteMessage();
+  bot.telegram.sendMessage(ctx.chat.id, "Enter your pincode", {
+    reply_markup: {
+      inline_keyboard: subscribeMarkup,
+    },
+  });
+});
+
+bot.action("subs", (ctx) => {
+  ctx.deleteMessage();
+  bot.telegram.sendMessage(ctx.chat.id, subscribeMsg, {
+    reply_markup: {
+      inline_keyboard: subscribeMarkup,
+    },
+  });
 });
 
 bot.hears(/^[1-9][0-9]{5}$/, (ctx) => {
@@ -278,8 +289,12 @@ bot.hears(/[s][u][b][s][c][r][i][b][e] [1-9][0-9]{5}$/, (ctx) => {
         return user.save();
       } else {
         const isAlreadySubscribed = user.telegramUser.find((tUser) => {
-          return tUser.id === ctx.chat.id;
+          return tUser.id == ctx.chat.id;
         });
+        console.log(isAlreadySubscribed);
+        // for(let x of user.telegramUser){
+
+        // }
         if (!isAlreadySubscribed) {
           user.telegramUser.push({ id: ctx.chat.id });
           return user.save();
@@ -288,13 +303,115 @@ bot.hears(/[s][u][b][s][c][r][i][b][e] [1-9][0-9]{5}$/, (ctx) => {
         }
       }
     })
-    .then((user) => {})
+    .then((user) => {
+      bot.telegram.sendMessage(ctx.chat.id, afterSubscribeMsg, {
+        reply_markup: {
+          inline_keyboard: subscribeMarkup1,
+        },
+      });
+    })
     .catch((err) => {
       console.log(err);
     });
 });
 
+bot.action("india", (ctx) => {
+  axios
+    .get("https://api.covid19india.org/data.json")
+    .then((data) => {
+      let message = `
+Active Cases:  ${data.data.statewise[0].active}\n
+Confirmed Cases:  ${data.data.statewise[0].confirmed}\n
+Deaths:  ${data.data.statewise[0].deaths}\n
+Recovered:  ${data.data.statewise[0].recovered}\n
+Last Update :  ${data.data.statewise[0].lastupdatedtime}
+`;
+      ctx.deleteMessage();
+      bot.telegram.sendMessage(ctx.chat.id, message, {
+        reply_markup: {
+          inline_keyboard: indiaMarkup,
+        },
+      });
+    })
+    .catch((err) => {
+      console.lof(err);
+    });
+});
+
+bot.action("state", (ctx) => {
+  ctx.deleteMessage();
+  ctx.telegram.sendMessage(ctx.chat.id, "Enter State", {
+    reply_markup: {
+      inline_keyboard: stateMarkup,
+    },
+  });
+});
+
+bot.action(stateList, (ctx) => {
+  const selectedState = ctx.match;
+  axios
+    .get("https://api.covid19india.org/data.json")
+    .then((data) => {
+      const stateData = data.data.statewise.find((val) => {
+        return val.state === selectedState;
+      });
+      let message = `
+State:  ${selectedState}\n
+Active Cases:  ${stateData.active}\n
+Confirmed Cases:  ${stateData.confirmed}\n
+Deaths:  ${stateData.deaths}\n
+Recovered:  ${stateData.recovered}\n
+New Cases : ${stateData.deltaconfirmed}\n
+Last Update :  ${stateData.lastupdatedtime}
+`;
+      ctx.deleteMessage();
+      ctx.telegram.sendMessage(ctx.chat.id, message, {
+        reply_markup: {
+          inline_keyboard: stateNameMarkup,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+bot.action("bot-info", (ctx) => {
+  ctx.deleteMessage();
+  ctx.telegram.sendMessage(ctx.chat.id, "Bot Information", {
+    reply_markup: {
+      inline_keyboard: botInfoMarkup,
+    },
+  });
+});
+
+bot.action("credits", (ctx) => {
+  ctx.deleteMessage();
+  const message = `
+API used -  https://api.covid19india.org/data.json
+            https://apisetu.gov.in/public/api/cowin#/Metadata%20APIs/states
+  `;
+  ctx.telegram.sendMessage(ctx.chat.id, message, {
+    reply_markup: {
+      inline_keyboard: afterInfoMarkup,
+    },
+  });
+});
+
+bot.action("dev", (ctx) => {
+  ctx.deleteMessage();
+  const message = `
+Developed By - Archit Goyal
+  `;
+  ctx.telegram.sendMessage(ctx.chat.id, message, {
+    reply_markup: {
+      inline_keyboard: afterInfoMarkup,
+    },
+  });
+});
+
 bot.action("start", (ctx) => {
+  ctx.deleteMessage();
   ctx.telegram.sendMessage(ctx.chat.id, startMessage, {
     reply_markup: {
       inline_keyboard: startMarkup,
