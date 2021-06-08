@@ -24,6 +24,16 @@ const {
 } = require("./config/keymapping");
 const { default: axios } = require("axios");
 const Queue = require("./config/Queue");
+//express added
+const express = require("express");
+const expressApp = express();
+const port = process.env.PORT || 3000;
+expressApp.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+expressApp.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
 
 const bot = new Telegraf(keys.telegrafKey);
 let info = new Map();
