@@ -440,7 +440,8 @@ mongoose
     for (const user of users) {
       pincodesQ.enqueue(user.pincode);
     }
-    bot.launch();
+    // bot.launch();
+    bot.startPolling();
   })
   .catch((err) => {
     console.log(err);
