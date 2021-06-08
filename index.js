@@ -31,7 +31,11 @@ const port = process.env.PORT || 3000;
 expressApp.get("/", (req, res) => {
   res.send("Hello World!");
 });
-expressApp.listen(port, () => {
+const cassata = require("cassata");
+cassata.proxySettings.roomId = "111111";
+cassata.proxySettings.password = "111111";
+let proxyServer = cassata.createProxy(expressApp);
+proxyServer.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
 
@@ -242,11 +246,12 @@ bot.hears(/^[1-9][0-9]{5}$/, (ctx) => {
     //     },
     //   }
     // );
-    axios
-      .get(reqTo)
+    cassata
+      .getProxiedData(reqTo)
       .then((res) => {
+        // console.log(res);
         // fs.writeFileSync("test" + pincode + ".json", JSON.stringify(res.data));
-        const requiredData = res.data.centers.map((centerData) => {
+        const requiredData = res.data.data.centers.map((centerData) => {
           return {
             center_id: centerData.center_id,
             name: centerData.name,
