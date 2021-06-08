@@ -172,7 +172,7 @@ const poll = () => {
 
   return new Promise(executePoll);
 };
-poll();
+// poll();
 
 // poll(mockApi, 10000, 10);
 // fn();
