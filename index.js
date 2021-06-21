@@ -271,15 +271,11 @@ bot.hears(/^[1-9][0-9]{5}$/, (ctx) => {
       })
       .catch((err) => {
         console.log(err);
-        bot.telegram.sendMessage(
-          ctx.chat.id,
-          "Something went wrong.Please try again...",
-          {
-            reply_markup: {
-              inline_keyboard: checkSlotMarkup,
-            },
-          }
-        );
+        bot.telegram.sendMessage(ctx.chat.id, "No Slots Available....", {
+          reply_markup: {
+            inline_keyboard: checkSlotMarkup,
+          },
+        });
       });
   } else {
     bot.telegram.sendMessage(ctx.chat.id, "Invalid PINCODE", {
