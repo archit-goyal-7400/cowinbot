@@ -138,18 +138,21 @@ const updateSlots = async (pincode) => {
     "&date=" +
     fullDate;
   try {
-    const response = await axios.get(reqTo, {
-      headers: {
-        "Accept-Language": "hi_IN",
-        "User-Agent":
-          "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36",
-      },
-    });
+    // const response = await axios.get(reqTo, {
+    //   headers: {
+    //     "Accept-Language": "hi_IN",
+    //     "User-Agent":
+    //       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36",
+    //   },
+    // });
+
+    const response = await cassata.getProxiedData(reqTo);
+
     //testing
     // let response = fs.readFileSync("../test" + pincode + ".json");
     // response = JSON.parse(response);
     // response.data = response;
-    const requiredData = response.data.centers.map((centerData) => {
+    const requiredData = response.data.data.centers.map((centerData) => {
       return {
         center_id: centerData.center_id,
         name: centerData.name,
@@ -157,6 +160,7 @@ const updateSlots = async (pincode) => {
         sessions: centerData.sessions,
       };
     });
+    // console.log(requiredData);
     await sendNewMsg(requiredData, pincode);
   } catch (err) {
     console.log(err);
@@ -176,7 +180,7 @@ const poll = () => {
 
   return new Promise(executePoll);
 };
-// poll();
+poll();
 
 // poll(mockApi, 10000, 10);
 // fn();
